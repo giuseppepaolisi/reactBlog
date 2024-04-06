@@ -1,5 +1,5 @@
 
-const Article = ({ article }) => {
+const Article = ({ article, onDelete }) => {
 
 
     return (
@@ -9,8 +9,8 @@ const Article = ({ article }) => {
             </div>
             <div className="card-body">
                 <p className="card-text">{article.body}</p>
-                <button className="btn btn-danger">Elimina</button>
-                <button onClick = "" className="btn btn-primary">Approva</button>
+                <button className="btn btn-danger" onClick={() => onDelete(article._id)} >Elimina</button>
+                <button className="btn btn-primary">Approva</button>
             </div>
         </div>
     )
