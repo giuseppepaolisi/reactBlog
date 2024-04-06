@@ -12,9 +12,10 @@ const ListArticles = () => {
         json = json.filter( (element) => {
             return element.published === true
         })
-        if(response.ok) {
-            setArticles(json); // Aggiorna lo stato con gli articoli ricevuti
+        if (!response.ok) {
+            throw new Error('Errore nella lsita dell\'articolo');
         }
+        setArticles(json); // Aggiorna lo stato con gli articoli ricevuti
     };
 
     //eliminazione articolo

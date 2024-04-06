@@ -1,6 +1,10 @@
+import DeleteModal from '../components/DeleteModal';
+import { useState } from "react";
+import DeleteButton from './DeleteButton';
 
 const Article = ({ article, onDelete }) => {
 
+    const [delModal, setDelModal] = useState(false);
 
     return (
         <div className="card" style={{marginTop: "20px"}}>
@@ -9,8 +13,17 @@ const Article = ({ article, onDelete }) => {
             </div>
             <div className="card-body">
                 <p className="card-text">{article.body}</p>
-                <button className="btn btn-danger" onClick={() => onDelete(article._id)} >Elimina</button>
-                <button className="btn btn-primary">Approva</button>
+                <DeleteButton 
+                    onClick={() => setDelModal(true)}
+                />
+
+                {delModal && (
+                    <DeleteModal 
+                        message={"Vuoi eliminare l'articolo?"}
+                        onDelete={() => onDelete(article._id)}
+                        onCancel={() => setDelModal(false)}
+                    />
+                )}
             </div>
         </div>
     )
