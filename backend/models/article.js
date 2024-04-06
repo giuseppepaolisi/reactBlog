@@ -13,7 +13,12 @@ const articleSchema = new Schema({
   },
   user: {
     type: String,
-    required: true
+    required: true,
+  },
+  published: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 })
 
