@@ -1,22 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
 
 import Article from '../components/Article'
 
 const ListArticles = () => {
+    const { auth } = useAuth()
 
     const [articles, setArticles] = useState([]); // Aggiunta dello stato per gli articoli
 
-    const fetchArticles = async () => {
-        const response = await fetch('/api/articles')
+    const fetchArticles = useCallback(async () => {
+        if (!auth) {
+            return
+          }
+        const response = await fetch('/api/articles', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${auth.token}`,
+                'Content-Type': 'application/json', 
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error('Errore nella lsita dell\'articolo');
+        }
         let json = await response.json()
         json = json.filter( (element) => {
             return element.published === true
         })
-        if (!response.ok) {
-            throw new Error('Errore nella lsita dell\'articolo');
-        }
         setArticles(json); // Aggiorna lo stato con gli articoli ricevuti
-    };
+    }, [auth]);
 
     //eliminazione articolo
     const deleteArticle = async (id) => {
@@ -34,7 +46,7 @@ const ListArticles = () => {
 
     useEffect(() => {
         fetchArticles(); // Richiama l'API all'avvio del componente
-    }, []); // L'array vuoto indica che useEffect verrà eseguito solo una volta dopo il primo render
+    }, [fetchArticles]); // L'array vuoto indica che useEffect verrà eseguito solo una volta dopo il primo render
 
     return (
         <div className="container-fluid">

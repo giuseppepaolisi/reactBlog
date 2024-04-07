@@ -25,6 +25,10 @@ const userSchema = new Schema({
 
 // Metodo statico di registrazione
 userSchema.statics.signup = async function(email, password) {
+
+  if (password.length < 8) {
+    throw Error('La password deve avere almeno 8 caratteri');
+  }
   
   const exists = await this.findOne({ email })
 
