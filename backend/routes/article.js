@@ -9,7 +9,12 @@ const {
     updateArticle
   } = require('../controllers/articleController')
 
+  const {requireAuth, requireAdmin } = require('../middleware/requireAuth')
+
 const router = express.Router()
+
+// richiede l'autenticazione base per tutte le routes
+router.use(requireAuth)
 
 router.get('/user/:user', getUserArticles)
 router.get('/', getArticles)
