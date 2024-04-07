@@ -7,7 +7,7 @@ const {
     createArticle,
     deleteArticle,
     updateArticle
-  } = require('../controller/articleController')
+  } = require('../controllers/articleController')
 
 const router = express.Router()
 

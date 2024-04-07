@@ -1,73 +1,59 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-const validator = require('validator')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const validator = require('validator');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: [true, 'Email è richiesta'],
+    unique: true,
+    validate: [validator.isEmail, 'Inserire un\'email valida'] // Usa la funzione di validazione direttamente nello schema
   },
   password: {
     type: String,
-    required: true
+    required: [true, 'Password è richiesta'],
+    minlength: [8, 'La password deve avere almeno 8 caratteri']
   },
   type: {
     type: String,
     required: true,
     default: 'user'
   }
-})
+});
 
-// metodo si registrazione statico
+// Metodo statico di registrazione
 userSchema.statics.signup = async function(email, password) {
-
-  // validation
-  if (!email || !password) {
-    throw Error('Tutti i campi sono vuoti')
-  }
-  if (!validator.isEmail(email)) {
-    throw Error('Email invelida')
-  }
-  if (!validator.isStrongPassword(password)) {
-    throw Error('Password debole')
-  }
-
+  
   const exists = await this.findOne({ email })
 
   if (exists) {
     throw Error('Email già utilizzata')
   }
 
-  const salt = await bcrypt.genSalt(10) //genera una stringa casuale che sarà combinata con la password
-  const hash = await bcrypt.hash(password, salt) //combina l stringa casuale con la password
+  const salt = await bcrypt.genSalt(10); // Genera una stringa casuale
+  const hash = await bcrypt.hash(password, salt) // Combina la stringa casuale con la password
 
   const user = await this.create({ email, password: hash })
 
-  return user
-}
+  return user;
+};
 
-// metodo statico di login
+// Metodo statico di login
 userSchema.statics.login = async function(email, password) {
-
-  if (!email || !password) {
-    throw Error('Tutti i campi sono vuoti')
-  }
-
   const user = await this.findOne({ email })
   if (!user) {
-    throw Error('Email errata')
+    throw Error('Email non trovata')
   }
 
-  // match delle password
+  // Verifica delle password
   const match = await bcrypt.compare(password, user.password)
   if (!match) {
     throw Error('Password errata')
   }
 
   return user
-}
+};
 
 module.exports = mongoose.model('User', userSchema)
