@@ -20,7 +20,7 @@ function Signup() {
       const data = await response.json();
       if (response.ok) {
         console.log('Utente registrato con successo', data);
-        login({ token: data.token, email: email })
+        login({ token: data.token, user: data.user })
       } else {
         throw new Error(data.error || 'Non è stato possibile registrare l\'utente');
       }

@@ -20,7 +20,7 @@ function Login() {
       const data = await response.json()
       if (response.ok) {
         console.log('Login effettuato con successo', data)
-        login({ token: data.token, email: email })
+        login({ token: data.token, user: data.user })
       } else {
         throw new Error(data.error || 'Non è stato possibile effettuare il login')
       }

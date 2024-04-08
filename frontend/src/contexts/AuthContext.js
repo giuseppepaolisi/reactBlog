@@ -13,7 +13,7 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({ token: null, email: null });
+  const [auth, setAuth] = useState({ token: null, user: null });
 
   useEffect(() => {
     const data = localStorage.getItem('authData');
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setAuth({ token: null, email: null });
+    setAuth({ token: null, user: null });
     localStorage.removeItem('authData');
   };
 
