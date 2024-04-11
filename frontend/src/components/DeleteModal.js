@@ -1,3 +1,4 @@
+import React from 'react';
 export default function DeleteModal({ message, onDelete, onCancel }) {
     return (
       <div className="modal fade show" style={{ display: "block" }}>

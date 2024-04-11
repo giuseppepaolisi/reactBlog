@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext'
+import { useDispatch } from 'react-redux'
+import { login } from '../redux/auth/slice'
 
 function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  const { login } = useAuth()
+  //redux
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,7 +22,7 @@ function Signup() {
       const data = await response.json();
       if (response.ok) {
         console.log('Utente registrato con successo', data);
-        login({ token: data.token, user: data.user })
+        dispatch(login({ token: data.token, user: data.user }));
       } else {
         throw new Error(data.error || 'Non è stato possibile registrare l\'utente');
       }

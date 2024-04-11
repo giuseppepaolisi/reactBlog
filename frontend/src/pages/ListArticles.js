@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+
+import { useSelector } from 'react-redux'
 
 import Article from '../components/Article'
 
 const ListArticles = () => {
-    const { auth } = useAuth()
+    //const { auth } = useAuth()
+    const auth = useSelector((state) => state.auth);
 
     const [articles, setArticles] = useState([]); // Aggiunta dello stato per gli articoli
 

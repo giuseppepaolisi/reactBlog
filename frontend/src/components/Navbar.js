@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom'
+import React from 'react';
+//import { useAuth } from '../contexts/AuthContext'
+import { logout } from '../redux/auth/slice'
 
-import { useAuth } from '../contexts/AuthContext'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Navbar = () => {
 
-  const { auth, logout } = useAuth();
+  const dispatch = useDispatch();
+  //const { auth, logout } = useAuth();
+  const auth = useSelector((state) => state.auth);
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <header>
@@ -25,7 +33,7 @@ const Navbar = () => {
             {auth.token ? (
               <div className="d-flex">
                 <span className="navbar-text me-3">{auth.user.email}</span>
-                <button className="btn btn-outline-danger" onClick={logout}>Log out</button>
+                <button className="btn btn-outline-danger" onClick={handleLogout}>Log out</button>
               </div>
             ) : (
               <div className="d-flex">

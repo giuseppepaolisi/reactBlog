@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+
+import { useDispatch } from 'react-redux'
+import { login } from '../redux/auth/slice'
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
 
-  const { login } = useAuth()
+  //redux
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const response = await fetch('/api/auth/login', {
@@ -21,7 +24,8 @@ function Login() {
       const data = await response.json()
       if (response.ok) {
         console.log('Login effettuato con successo', data)
-        login({ token: data.token, user: data.user })
+        //login({ token: data.token, user: data.user })
+        dispatch(login({ token: data.token, user: data.user }));
       } else {
         setError(data.error)
         throw new Error(data.error || 'Non è stato possibile effettuare il login')
@@ -33,7 +37,7 @@ function Login() {
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <form className="" style={{width: "100%", maxWidth: "330px", padding: "15px", margin: "auto", textAlign: "center"}}  onSubmit={handleSubmit}>
+      <form className="" style={{width: "100%", maxWidth: "330px", padding: "15px", margin: "auto", textAlign: "center"}}  onSubmit={handleLogin}>
         <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="inputEmail" className="sr-only">Email address</label>
         <input type="email" id="inputEmail" className="form-control" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required autofocus />

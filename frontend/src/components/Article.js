@@ -1,3 +1,4 @@
+import React from 'react';
 import DeleteModal from '../components/DeleteModal';
 import { useState } from "react";
 import DeleteButton from './DeleteButton';

@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import { AuthProvider } from './contexts/AuthContext';
+
+import { Provider } from 'react-redux';
+import { store } from './redux/auth/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AuthProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </AuthProvider>
+  <Provider store= {store}>
+    <App />
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

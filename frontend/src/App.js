@@ -1,16 +1,17 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import Navbar from './components/Navbar';
 
-import { useAuth } from './contexts/AuthContext';
+import { useSelector } from 'react-redux'
 
 // pages
 import Signup from './pages/Signup'
 import Login from './pages/Login'
-import ListArticles from './pages/ListArticles';
+import ListArticles from './pages/ListArticles'
 
 function App() {
 
-  const {auth} = useAuth()
+  const auth = useSelector((state) => state.auth);
 
   return (
     <div className="App">
