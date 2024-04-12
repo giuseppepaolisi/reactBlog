@@ -15,7 +15,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/usr/src/app
-    command: npm run dev -- --host 0.0.0.0
+    command: npm start -- --host 0.0.0.0
 
 networks:
   default:
